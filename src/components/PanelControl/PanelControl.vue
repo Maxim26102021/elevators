@@ -3,9 +3,10 @@
     <button
       v-for="(btn, indx) in options.floors"
       :key="indx"
+      @click="this.$emit('call-elevator', btn)"
       class="panel__btn"
     >
-      {{ indx + 1 }}
+      {{ btn }}
     </button>
   </div>
 </template>

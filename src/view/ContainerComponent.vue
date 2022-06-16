@@ -3,9 +3,13 @@
     v-for="(elevator, indx) in options.elevators"
     :key="indx"
     :options="options"
+    :newFloor="currentFloor"
     >indx
   </ShaftComponent>
-  <PanelControl :options="options" />
+  <PanelControl
+    @call-elevator="(newFloor) => this.moveElevator(newFloor)"
+    :options="options"
+  />
 </template>
 
 <script>
@@ -26,6 +30,7 @@ export default {
         elevators: 1,
         speedTime: 3,
       },
+      currentFloor: 1,
     };
   },
   methods: {
@@ -34,6 +39,9 @@ export default {
       this.options.elevators = elevators;
       this.options.floors = floors;
       this.options.speedTime = speed;
+    },
+    moveElevator(newFloor) {
+      this.currentFloor = newFloor;
     },
   },
   created() {
