@@ -1,5 +1,7 @@
 <template>
-  <ContainerComponent />
+  <div class="app">
+    <ContainerComponent />
+  </div>
 </template>
 
 <script>
@@ -13,4 +15,14 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.app {
+  height: 100vh;
+  display: flex;
+}
+</style>
