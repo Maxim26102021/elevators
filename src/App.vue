@@ -1,8 +1,15 @@
-<template></template>
+<template>
+  <ContainerComponent />
+</template>
 
 <script>
+import ContainerComponent from "@/view/ContainerComponent";
+
 export default {
   name: "App",
+  components: {
+    ContainerComponent,
+  },
 };
 </script>
 
