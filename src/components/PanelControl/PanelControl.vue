@@ -20,6 +20,7 @@ export default {
       default: () => ({}),
     },
   },
+  methods: {},
 };
 </script>
 
@@ -30,7 +31,6 @@ export default {
   justify-content: space-around;
 
   &__btn {
-    border-radius: 50%;
     border: none;
     cursor: pointer;
 

@@ -1,11 +1,10 @@
 <template>
   <div class="shaft reverse">
-    <div ref="elevator" class="shaft__elevator">
-      <slot></slot>
-      {{ firstFloor }}
-      {{ heightFloor }}
-      {{ maxPos }}
-    </div>
+    <div
+      ref="elevator"
+      class="shaft__elevator"
+      v-bind:class="{ action: elevatorInAction }"
+    ></div>
   </div>
 </template>
 
@@ -28,42 +27,64 @@ export default {
   },
   data() {
     return {
-      currentFloor: 1,
+      elevatorInAction: false,
     };
+  },
+  methods: {
+    movingElevator() {
+      this.$refs.elevator.style.transition =
+        this.options.speedTime * this.newFloor + "s";
+      this.elevatorInAction = true;
+      this.$refs.elevator.style.top = this.nextFloor + "px";
+
+      let timer = setTimeout(() => {
+        this.elevatorInAction = false;
+        clearInterval(timer);
+      }, this.options.speedTime * 1000);
+    },
+    loadElevatorOptions() {
+      this.$refs.elevator.style.height = this.heightFloor + "px";
+      this.$refs.elevator.style.top = this.firstFloor + "px";
+    },
   },
   computed: {
     nextFloor() {
       return this.heightFloor * (this.options.floors - this.newFloor);
     },
     heightFloor() {
-      return window.innerHeight / this.options.floors; //76
-    },
-    maxPos() {
-      return this.heightFloor * this.options.floors; //380
+      return window.innerHeight / this.options.floors; //76 высота этажа
     },
     firstFloor() {
       return this.heightFloor * (this.options.floors - 1); //304
     },
   },
   mounted() {
-    this.$refs.elevator.style.height = this.heightFloor + "px";
-    this.$refs.elevator.style.top = this.firstFloor + "px";
+    this.loadElevatorOptions();
   },
-  updated() {
-    console.log(this.$props);
-    this.$refs.elevator.style.top = this.currentFloor = this.nextFloor + "px";
+  watch: {
+    newFloor() {
+      this.movingElevator();
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/animations.scss";
+
+.action {
+  animation-name: action-animation;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+}
+
 .reverse {
   flex-direction: column-reverse;
 }
 
 .shaft {
   height: 100vh;
-  width: 100px;
+  width: 110px;
   border: 1px solid black;
   position: relative;
   display: flex;
@@ -72,7 +93,7 @@ export default {
     width: 100px;
     border: 1px solid black;
     position: absolute;
-    transition: 3s;
+    transition: 1s;
   }
 }
 </style>
